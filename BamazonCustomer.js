@@ -24,16 +24,16 @@ connection.connect(function(err) {
 function DisplayInventoryToCustomer() {
     connection.query('SELECT * from inventory', function(err, rows, fields) {
         if (!err) {
-            console.log("---------------------------------------------------------------------------------------------------------");
-            console.log("|  " + "ID" + "\t|  " + FillLineUp("ItemName", 55) + "\t|  " + "Price" + "\t|  " + "Inventory" + "\t" + "|");
-            console.log("---------------------------------------------------------------------------------------------------------");
+            console.log("-----------------------------------------------------------------------------------------------------------");
+            console.log("|  " + "ID" + "\t|  " + FillLineUp("ItemName", 55) + "\t|  " + "Price" + "\t|  " + FillLineUp("Inventory",15)  + "|");
+            console.log("-----------------------------------------------------------------------------------------------------------");
 
             for (var ii = 0; ii < rows.length; ii++) {
 
-                console.log("|  " + rows[ii].ItemID + "\t|  " + FillLineUp(rows[ii].ProductName, 55) + "\t|  " + "$" + rows[ii].Price + "\t        |  " + rows[ii].StockQuantity + "\t\t" + "|");
+                console.log("|  " + rows[ii].ItemID + "\t|  " + FillLineUp(rows[ii].ProductName, 55) + "\t|  " + "$" + FillLineUp(rows[ii].Price, 15) + "\t|  " + FillLineUp((rows[ii].StockQuantity).toString(),15) + "|");
 
             }
-            console.log("---------------------------------------------------------------------------------------------------------");
+            console.log("-----------------------------------------------------------------------------------------------------------");
             //console.log(JSON.stringify(rows, null, 2));
             QueryCustomer();
         } else
@@ -50,14 +50,19 @@ function QueryCustomer() {
         name: "quantityRequested",
         message: "How many would you like to buy?"
     }]).then(function(requestInfo) {
-            PrintCustomerInvoice(requestInfo.itemNumber, requestInfo.quantityRequested)
+         //   PrintCustomerInvoice(requestInfo.itemNumber, requestInfo.quantityRequested)
 
         // check if quanltity exists
        // var inventoryGood = CheckInventoryCustomer(requestInfo.itemNumber,requestInfo.quantityRequested );
         //console.log(inventoryGood);
-        console.log((CheckInventoryCustomer(requestInfo.itemNumber,requestInfo.quantityRequested )));
-        if (CheckInventoryCustomer(requestInfo.itemNumber,requestInfo.quantityRequested ) == true) {
-            // update inventory
+       // console.log((CheckInventoryCustomer(requestInfo.itemNumber,requestInfo.quantityRequested )));
+         var a = requestInfo.itemNumber;
+            var b = requestInfo.quantityRequested ;
+       
+       
+        if (CheckInventoryCustomer(a ,b)){
+
+            // update inventory   update db on good, return status callback is print receipt
             // update customer
             console.log("printing receipt");
             PrintCustomerInvoice(requestInfo.itemNumber, requestInfo.quantityRequested)
@@ -82,9 +87,9 @@ function PrintCustomerInvoice(itemIdRequested, quantityRequested) {
         if (!err) {
             console.log("Order Complete\n");
             console.log("---------------------------------------------------------------------------------------------------------");
-            console.log("|  " + "ID" + "\t|  " + FillLineUp("ItemName", 55) + "\t|  " + "Price" + "\t|  " + "Qty Ordered" + "\t" + "Total" + "|");
+            console.log("|  " + "ID"           + "\t|  " + FillLineUp("ItemName", 55)          + "\t|  " + FillLineUp("Price", 20)             + "\t|  " + FillLineUp("Qty Ordered", 15)     + "\|" + FillLineUp("Total", 10) + "|");
             console.log("---------------------------------------------------------------------------------------------------------");
-            console.log("|  " + rows[0].ItemID + "\t|  " + FillLineUp(rows[0].ProductName, 55) + "\t|  " + "$" + rows[0].Price + "\t        |  " + quantityRequested + "\t\t" +  rows[0].Price  *  quantityRequested + "|");
+            console.log("|  " + rows[0].ItemID + "\t|  " + FillLineUp(rows[0].ProductName, 55) + "\t|  " + "$" + FillLineUp(rows[0].Price, 20) + "|  " + FillLineUp(quantityRequested, 15) + "\t|" +  FillLineUp(rows[0].Price  *  quantityRequested, 10) + "|");
             console.log("---------------------------------------------------------------------------------------------------------");
 
 
@@ -102,9 +107,13 @@ function CheckInventoryCustomer(itemIdRequested, quantityRequested) {
         { ItemID: itemIdRequested }
     ], function(err, rows, fields) {
         if (!err) {
-            if (rows[0].StockQuantity >= parseInt(quantityRequested) ) {
+           // console.log("Stock: " + parseInt(rows[0].StockQuantity));
+           // console.log("Required: " + parseInt(quantityRequested));
+           // console.log(parseInt(rows[0].StockQuantity) > parseInt(quantityRequested));
+            if (parseInt(rows[0].StockQuantity) >= parseInt(quantityRequested) ) {
                // console.log(rows[0].StockQuantity , parseInt(quantityRequested));
-                return true;
+              // console.log("true");
+                return "true";
             } else {
                 console.log("not enough");
                 return false;
