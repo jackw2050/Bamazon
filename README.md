@@ -19,4 +19,7 @@ Table contents. Comma delimited
 
 Screen shots
 
-![Bamazon palette](https://github.com/jackw2050/Bamazon/edit/master/ScreenShot1.png)
+
+![Screen shot 1](https://github.com/jackw2050/Bamazon/blob/master/ScreenShot1.png)
+![Screen shot 2](https://github.com/jackw2050/Bamazon/blob/master/ScreenShot2.png)
+![Screen shot 3](https://github.com/jackw2050/Bamazon/blob/master/ScreenShot3.png)
