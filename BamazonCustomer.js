@@ -64,7 +64,6 @@ function QueryCustomer() {
 
 
 function updateItem(item, quantity, quantityRequested) {
-    console.log("UPDATE");
     connection.query("UPDATE inventory SET ? WHERE ?", [{
         StockQuantity: quantity
     }, {
@@ -93,11 +92,12 @@ function PrintCustomerInvoice(itemIdRequested, quantityRequested) {
     ], function(err, rows, fields) {
         if (!err) {
            // console.log(quantityRequested);
+           var total = (rows[0].Price  *  parseFloat(quantityRequested));
             console.log("Order Complete\n");
             console.log("-----------------------------------------------------------------------------------------------------------------------");
             console.log("|  " + "ID"           + "\t|  " + FillLineUp("ItemName", 55)          + "\t|  " + FillLineUp("Price", 10)             + " |  " + FillLineUp("Qty Ordered", 15)     + "|   " + FillLineUp("Total", 10) + "|");
             console.log("-----------------------------------------------------------------------------------------------------------------------");
-            console.log("|  " + rows[0].ItemID + "\t|  " + FillLineUp(rows[0].ProductName, 55) + "\t|  " + "$" + FillLineUp(rows[0].Price.toString(), 10) + "|  " + FillLineUp(quantityRequested.toString(), 15) + "|   " +  "$" + FillLineUp( (rows[0].Price  *  parseInt(quantityRequested).toString()), 10) + " |");
+            console.log("|  " + rows[0].ItemID + "\t|  " + FillLineUp(rows[0].ProductName, 55) + "\t|  " + "$" + FillLineUp(rows[0].Price.toString(), 10) + "|  " + FillLineUp(quantityRequested.toString(), 15) + "|   " +  "$" +  FillLineUp( total.toString()  , 8) + " |");
             console.log("-----------------------------------------------------------------------------------------------------------------------");
         //    updateItem(itemIdRequested, (rows[0].StockQuantity  -  quantityRequested)) ;
         } else
