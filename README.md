@@ -13,3 +13,4 @@ CREATE TABLE `inventory` (
 
 
 Table contents. Comma delimited
+
