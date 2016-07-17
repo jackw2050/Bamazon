@@ -1,0 +1,19 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Schema:",
+  "main": "BamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackw2050/Bamazon.git"
+  },
+  "author": "Jack Walker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackw2050/Bamazon/issues"
+  },
+  "homepage": "https://github.com/jackw2050/Bamazon#readme"
+}
